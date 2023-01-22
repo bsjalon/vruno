@@ -88,10 +88,10 @@ public class MenuAdmin {
         int a;
         while (true) {
             ProyectoPrimerParcial.getDataBase().listaServicios.forEach(servicio -> System.out.println(servicio.toString()));
-            System.out.println("1. Agregar Servicio \n2. Regresar a menú principal");
+            System.out.println("1. Agregar Servicio \n2. Editar Servicio \n3.Regresar a menú principal");
             a = scanner.nextInt();
             scanner.nextLine();
-            if (a == 2) {
+            if (a == 3) {
                 return;
             }
             if (a == 1) {
@@ -100,10 +100,22 @@ public class MenuAdmin {
 
                 System.out.println("Ingrese el precio(##.##): ");
                 float servicio = scanner.nextFloat();
+                
+                
 
                 String codigo = String.valueOf(ProyectoPrimerParcial.getDataBase().listaServicios.size() + 1);
 
                 ProyectoPrimerParcial.getDataBase().agregarServicio(new Servicio(codigo, nombre, servicio));
+            }
+            if (a==2) {
+                System.out.println("Ingrese el codigo del servicio: ");
+                String codigo = scanner.nextLine();
+                //Se busca el servicio con el mismo codigo
+                
+                System.out.println("Ingrese el nuevo precio(##.##): ");
+                float precio = scanner.nextFloat();
+               // se cambia el precio del del servicio
+               
             }
         }
     }

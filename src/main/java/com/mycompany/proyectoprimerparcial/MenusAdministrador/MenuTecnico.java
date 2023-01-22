@@ -14,7 +14,7 @@ public class MenuTecnico {
     public ArrayList<Orden> listaOrdenes;
     public ArrayList<Servicio> listaServicios;
     public String mailResponsable = "correo@gmail.com";
-
+    Scanner sc = new Scanner(System.in);
 
     public void menuPrincipal() {
         int check = 0;
@@ -38,7 +38,6 @@ public class MenuTecnico {
     }
 
     public void generarOrden() {
-        Scanner sc = new Scanner(System.in);
         System.out.println("Generando Orden...");
         System.out.println("Ingrese código del cliente: ");
         String codeC = sc.nextLine();
@@ -95,12 +94,11 @@ public class MenuTecnico {
         }
 
 
-        sc.close();
         menuPrincipal();
     }
 
     public void reportarInsumo() {
-        Scanner sc = new Scanner(System.in);
+        
         System.out.println("Ingrese el mensaje a reportar: ");
         String mensaje = sc.nextLine();
         String conf = "";
@@ -111,7 +109,6 @@ public class MenuTecnico {
                 System.out.println("Correo enviado");
             }
         }
-        sc.close();
         menuPrincipal();
     }
 
