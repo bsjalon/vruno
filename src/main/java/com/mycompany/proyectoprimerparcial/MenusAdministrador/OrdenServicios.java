@@ -26,7 +26,7 @@ public class OrdenServicios {
         System.out.println("Ingrese la fecha del servicio (dd/mm/yyyy):");
         String fecha = sc.nextLine();
         System.out.println("Ingrese el tipo de vehículo (1- automóvil, 2 motocicletas, 3- bus):");
-        int tipoVehiculo = sc.nextInt();
+        TipoVehiculo tipoVehiculo = TipoVehiculo.values()[sc.nextInt()];
         sc.nextLine();
         System.out.println("Ingrese la placa del vehiculo:");
         String placa = sc.nextLine();
@@ -34,9 +34,10 @@ public class OrdenServicios {
         Orden orden = new Orden(codigoCliente, fecha, tipoVehiculo, placa);
     }
     
-    public Service getServiceByCode(int code) {
-    for (Service service : services) {
-        if (service.getCode() == code) {
+    public Servicio getServiceByCode(String code) {
+
+    for (Servicio service : servicios) {
+        if (service.getCodigo().equals(code)) {
             return service;
         }
     }

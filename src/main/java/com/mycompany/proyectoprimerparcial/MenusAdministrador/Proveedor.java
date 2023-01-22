@@ -23,5 +23,10 @@ public class Proveedor {
     public String getCodigo(){
       return codigo;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s - %s - %s", codigo, nombre, direccion, telefono);
+    }
     
 }

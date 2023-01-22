@@ -3,140 +3,109 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.proyectoprimerparcial.MenusAdministrador;
+
 import com.mycompany.proyectoprimerparcial.ProyectoPrimerParcial;
+
 import java.util.*;
+
 /**
- *
  * @author Sebasceb
  */
 public class MenuAdmin {
-    
-    public ArrayList<Cliente> listaClientes;
-    public ArrayList<Proveedor> listaProveedores;
-    public ArrayList<Servicio> listaServicios;
-  
-  
-    public MenuAdmin(ArrayList<Cliente> c, ArrayList<Proveedor> p,ArrayList<Servicio> s ){
-      this.listaClientes=c;
-      this.listaProveedores=p;
-      this.listaServicios=s;
+
+    Scanner scanner = new Scanner(System.in);
+    public void menuPrincipal() {
+        boolean check = true;
+        while (check) {
+            System.out.println("1. Administrar Clientes\n2. Administrar Proveedores\n3. Admninistrar Servicios\n4. Cerrar");
+            int opcion = scanner.nextInt();
+            switch (opcion) {
+                case 1 -> administrarCliente();
+                case 2 -> administrarProveedor();
+                case 3 -> administrarServicios();
+                case 4 -> check = false;
+                default -> scanner.close();
+            }
+        }
+
     }
-    
-  
 
-  public void menuPrincipal(){
-    int check=0;
-    while(check==0){
-      Scanner sc = new Scanner(System.in);
-      System.out.println("1. Administrar Clientes\n2. Administrar Proveedores\n3. Admninistrar Servicios");
-      int opcion=sc.nextInt();
-      switch(opcion){
-        case 1:
-          administrarCliente();
-        case 2:
-          administrarProveedor();
-        case 3:
-          administrarServicios();  
-        default:
-          sc.close();
-      }
-  
-      
+    public void administrarCliente() {
+        int a;
+        while (true) {
+            ProyectoPrimerParcial.getDataBase().listaClientes.forEach(cliente -> System.out.println(cliente.toString()));
+            System.out.println("1. Agregar Cliente \n2. Regresar a menú principal");
+            a = scanner.nextInt();
+            scanner.nextLine();
+            if (a == 2) {
+                return;
+            }
+            if (a == 1) {
+                System.out.println("Ingrese el nombre del cliente: ");
+                String nombre = scanner.nextLine();
+                System.out.println("Ingrese la dirección del cliente: ");
+                String direccion = scanner.nextLine();
+                System.out.println("Ingrese el numero de teléfono del cliente: ");
+                String telefono = scanner.nextLine();
+                String codigo = String.valueOf(ProyectoPrimerParcial.getDataBase().listaClientes.size() + 1);
+                System.out.println("Ingrese el tipo de cliente (1- Personal , 2 Empresarial):");
+                TipoCliente tipoCliente = TipoCliente.values()[scanner.nextInt()];
+                ProyectoPrimerParcial.getDataBase().agregarCliente(new Cliente(codigo, nombre, direccion, telefono, tipoCliente));
+            }
+        }
     }
-    
-  }
-  
-  public void administrarCliente(){
-    System.out.println(ProyectoPrimerParcial.accederClientes());
 
-    Scanner sc = new Scanner(System.in);
-    int a= 0;
-    while(a!=1 && a!=2){
-      System.out.println("1. Agregar Cliente \n2. Regresar a menú principal");
-      a= sc.nextInt();
-      sc.nextLine(); 
-      if(a==2){
-        sc.close();
-        return;
-      }
-      if(a==1){
-       System.out.println("Ingrese el nombre del cliente: ");
-        String nombre= sc.nextLine();
-    
-        System.out.println("Ingrese la dirección del cliente: ");
-        String direccion= sc.nextLine();
-    
-        System.out.println("Ingrese el numero de teléfono del cliente: ");
-        String telefono= sc.nextLine();
-        
-        String codigo= "Falta hacer codigo";
-    
-        ProyectoPrimerParcial.agregarCliente(new Cliente(codigo, nombre, direccion, telefono)); 
-      }
+    public void administrarProveedor() {
+        System.out.println(ProyectoPrimerParcial.getDataBase().accederProveedores());
+        int a;
+        while (true) {
+            ProyectoPrimerParcial.getDataBase().listaProveedores.forEach(proveedor -> System.out.println(proveedor.toString()));
+            System.out.println("1. Agregar Proveedor \n2. Regresar a menú principal");
+            a = scanner.nextInt();
+            scanner.nextLine();
+            if (a == 2) {
+                return;
+            }
+            if (a == 1) {
+                System.out.println("Ingrese el nombre del proveedor: ");
+                String nombre = scanner.nextLine();
+
+                System.out.println("Ingrese la dirección del proveedor: ");
+                String direccion = scanner.nextLine();
+
+                System.out.println("Ingrese el numero de teléfono del proveedor: ");
+                String telefono = scanner.nextLine();
+
+                String codigo = String.valueOf(ProyectoPrimerParcial.getDataBase().listaProveedores.size() + 1);
+
+                ProyectoPrimerParcial.getDataBase().agregarProveedor(new Proveedor(codigo, nombre, direccion, telefono));
+            }
+        }
+
     }
-    sc.close();
-  }
 
-  public void administrarProveedor(){
-    System.out.println(ProyectoPrimerParcial.accederProveedores());
+    public void administrarServicios() {
+        int a;
+        while (true) {
+            ProyectoPrimerParcial.getDataBase().listaServicios.forEach(servicio -> System.out.println(servicio.toString()));
+            System.out.println("1. Agregar Servicio \n2. Regresar a menú principal");
+            a = scanner.nextInt();
+            scanner.nextLine();
+            if (a == 2) {
+                return;
+            }
+            if (a == 1) {
+                System.out.println("Ingrese el nombre del servicio: ");
+                String nombre = scanner.nextLine();
 
-    Scanner sc = new Scanner(System.in);
-    int a= 0;
-    while(a!=1 && a!=2){
-      System.out.println("1. Agregar Proveedor \n2. Regresar a menú principal");
-      a= sc.nextInt();
-      sc.nextLine(); 
-      if(a==2){
-        sc.close();
-        return;
-      }
-      if(a==1){
-        System.out.println("Ingrese el nombre del proveedor: ");
-        String nombre= sc.nextLine();
+                System.out.println("Ingrese el precio(##.##): ");
+                float servicio = scanner.nextFloat();
 
-        System.out.println("Ingrese la dirección del proveedor: ");
-        String direccion= sc.nextLine();
+                String codigo = String.valueOf(ProyectoPrimerParcial.getDataBase().listaServicios.size() + 1);
 
-        System.out.println("Ingrese el numero de teléfono del proveedor: ");
-        String telefono= sc.nextLine();
-
-        String codigo= "Falta hacer codigo";
-    
-        ProyectoPrimerParcial.agregarProveedor(new Proveedor(codigo, nombre, direccion, telefono)); 
-      }
+                ProyectoPrimerParcial.getDataBase().agregarServicio(new Servicio(codigo, nombre, servicio));
+            }
+        }
     }
-    sc.close();
-    
-  }
 
-  public void administrarServicios(){
-    System.out.println(ProyectoPrimerParcial.accederServicios());
-
-    Scanner sc = new Scanner(System.in);
-    int a= 0;
-    while(a!=1 && a!=2){
-      System.out.println("1. Agregar Servicio \n2. Regresar a menú principal");
-      a= sc.nextInt();
-      sc.nextLine(); 
-      if(a==2){
-        sc.close();
-        return;
-      }
-      if(a==1){
-       System.out.println("Ingrese el nombre del servicio: ");
-        String nombre= sc.nextLine();
-    
-        System.out.println("Ingrese el precio(##.##): ");
-        float servicio= sc.nextFloat();
-        
-        String codigo= "Falta hacer codigo";
-    
-        ProyectoPrimerParcial.agregarServicio(new Servicio(codigo, nombre, servicio)); 
-      }
-    }
-    sc.close();
-    
-  
-  }
-    
 }

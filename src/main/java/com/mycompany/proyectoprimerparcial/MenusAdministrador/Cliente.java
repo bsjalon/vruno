@@ -5,23 +5,28 @@
 package com.mycompany.proyectoprimerparcial.MenusAdministrador;
 
 /**
- *
  * @author Sebasceb
  */
-public class Cliente extends Proveedor{
+public class Cliente extends Proveedor {
     public TipoCliente tipo;
 
-    public Cliente(String c, String n, String d, String t){
-      super(c,n,d,t);
-      
+    public Cliente(String c, String n, String d, String t) {
+        super(c, n, d, t);
+
     }
-    
-    public Cliente(String c, String n, String d, String t,TipoCliente tipo){
-      super(c,n,d,t);
-      this.tipo=tipo;
-      
+
+    public Cliente(String c, String n, String d, String t, TipoCliente tipo) {
+        super(c, n, d, t);
+        this.tipo = tipo;
+
     }
-    public String getNombre(){
-      return nombre;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " - " + tipo.toString();
     }
 }
