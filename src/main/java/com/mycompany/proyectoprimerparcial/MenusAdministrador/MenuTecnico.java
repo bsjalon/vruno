@@ -4,6 +4,9 @@
  */
 package com.mycompany.proyectoprimerparcial.MenusAdministrador;
 
+import com.mycompany.proyectoprimerparcial.DataBase;
+import com.mycompany.proyectoprimerparcial.ProyectoPrimerParcial;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,9 +15,16 @@ import java.util.Scanner;
  */
 public class MenuTecnico {
     public ArrayList<Orden> listaOrdenes;
-    public ArrayList<Servicio> listaServicios;
     public String mailResponsable = "correo@gmail.com";
+
+    private DataBase db = ProyectoPrimerParcial.getDataBase();
+
+    private String usernameTecnico;
     Scanner sc = new Scanner(System.in);
+
+    public MenuTecnico(String usernameTecnico) {
+        this.usernameTecnico = usernameTecnico;
+    }
 
     public void menuPrincipal() {
         int check = 0;
@@ -27,10 +37,8 @@ public class MenuTecnico {
                     generarOrden();
                 case 2:
                     reportarInsumo();
-                case 3:
-                    check = 1;
                 default:
-                    sc.close();
+                    check = 1;
             }
 
         }
@@ -40,65 +48,78 @@ public class MenuTecnico {
     public void generarOrden() {
         System.out.println("Generando Orden...");
         System.out.println("Ingrese código del cliente: ");
-        String codeC = sc.nextLine();
-        System.out.println("Ingrese fecha del servicio: ");
-        String fecha = sc.nextLine();
-        int tipoNum = 0;
-        TipoVehiculo tipo = null;
-        while (tipoNum != 1 && tipoNum != 2 && tipoNum != 3) {
-            System.out.println("Ingrese tipo de vehiculo 1. automóvil 2. motocicletas 3. bus(Ingrese el numero de la opcion correcta)");
-            tipoNum = sc.nextInt();
-            sc.nextLine();
+        String codigoCliente = sc.nextLine();
+        if (ProyectoPrimerParcial.getDataBase().getClienteByCodigo(codigoCliente).isEmpty()) {
+            System.out.println("Cliente no encontrado");
+            return;
         }
-        switch (tipoNum) {
-            case 1:
-                tipo = TipoVehiculo.Automóvil;
-            case 2:
-                tipo = TipoVehiculo.Motocicleta;
-            case 3:
-                tipo = TipoVehiculo.Bus;
-        }
-        System.out.println("Ingrese la placa del vehículo: ");
-        String placa = sc.nextLine();
+        Orden orden = new Orden();
+        Cliente cliente = ProyectoPrimerParcial.getDataBase().getClienteByCodigo(codigoCliente).get();
         float precioFinal = 0;
-        int bandera = 0;
-        while (bandera == 0) {
-            System.out.println("Ingrese el código del servicio: ");
-            String codeS = sc.nextLine();
-            Servicio servicioTemp = new Servicio(codeS, "", 0);
-            if (codeS.equals("-1")) {
-                break;
-            } else {
-                if (listaServicios.contains(servicioTemp)) {
-                    int index = listaServicios.indexOf(servicioTemp);
-                    Servicio servicioAgregar = listaServicios.get(index);
-                    System.out.println("Ingrese la cantidad para el servicio: ");
-                    int cant = sc.nextInt();
-                    sc.nextLine();
-                    if (cant == -1) {
-                        break;
-                    } else {
-                        servicioAgregar.setCantidad(cant);
-                    }
-                    Orden ordenAgregar = new Orden(placa, fecha, tipo, codeC);
-                    double precio = cant * servicioAgregar.getPrecio();
-                    precioFinal += precio;
-                    listaOrdenes.add(ordenAgregar);
-                } else {
-                    System.out.println("Codigo no encontrado");
-                }
+        while (true) {
 
+            System.out.println("Ingrese el código del servicio: ");
+            String codigoServicio = sc.nextLine();
+
+            if (codigoServicio.equals("-1"))
+                break;
+
+            if (db.getServicioByCodigo(codigoServicio).isEmpty()) {
+                System.out.println("Servicio no encontrado");
+                continue;
             }
 
+            Servicio servicioAgregar = db.getServicioByCodigo(codigoServicio).get();
+            OrderServicio ordenServicio = new OrderServicio(servicioAgregar);
 
+            System.out.println("Ingrese fecha del servicio [dd/mm/yyyy]: ");
+            ordenServicio.setFecha(sc.nextLine());
+            int tipoNum = 0;
+            while (tipoNum != 1 && tipoNum != 2 && tipoNum != 3) {
+                System.out.println("Ingrese tipo de vehiculo 1. automóvil 2. motocicletas 3. bus(Ingrese el numero de la opcion correcta)");
+                tipoNum = sc.nextInt();
+                sc.nextLine();
+            }
+
+            switch (tipoNum) {
+                case 1:
+                    ordenServicio.setTipo(TipoVehiculo.Automóvil);
+                case 2:
+                    ordenServicio.setTipo(TipoVehiculo.Motocicleta);
+                case 3:
+                    ordenServicio.setTipo(TipoVehiculo.Bus);
+            }
+
+            System.out.println("Ingrese la placa del vehículo: ");
+            ordenServicio.setPlaca(sc.nextLine());
+
+            System.out.println("Ingrese la cantidad para el servicio: ");
+            ordenServicio.setCantidad(sc.nextInt());
+            sc.nextLine();
+
+            if (ordenServicio.getCantidad() <= 0) {
+                System.out.println("Cantidad Invalida, Ingrese el servicio nuevamente");
+                continue;
+            }
+
+            double precio = ordenServicio.getCantidad() * servicioAgregar.getPrecio();
+            ordenServicio.setTotal(precio);
+            precioFinal += precio;
+            orden.getOrderServicioList().add(ordenServicio);
+            System.out.println("Total: " + precio);
         }
-
-
+        orden.setCodigoCliente(cliente.codigo);
+        orden.setUsernameTecnico(usernameTecnico);
+        orden.setTotal((double) precioFinal);
+        cliente.getOrdenList().add(orden);
+        db.listaOrdenes.add(orden);
+        db.actualizarCliente(cliente);
+        System.out.println("Total a Pagar: " + precioFinal);
         menuPrincipal();
     }
 
     public void reportarInsumo() {
-        
+
         System.out.println("Ingrese el mensaje a reportar: ");
         String mensaje = sc.nextLine();
         String conf = "";

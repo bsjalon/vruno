@@ -14,6 +14,7 @@ import java.util.*;
 public class MenuAdmin {
 
     Scanner scanner = new Scanner(System.in);
+
     public void menuPrincipal() {
         boolean check = true;
         while (check) {
@@ -100,22 +101,25 @@ public class MenuAdmin {
 
                 System.out.println("Ingrese el precio(##.##): ");
                 float servicio = scanner.nextFloat();
-                
-                
 
                 String codigo = String.valueOf(ProyectoPrimerParcial.getDataBase().listaServicios.size() + 1);
 
                 ProyectoPrimerParcial.getDataBase().agregarServicio(new Servicio(codigo, nombre, servicio));
             }
-            if (a==2) {
+            if (a == 2) {
                 System.out.println("Ingrese el codigo del servicio: ");
                 String codigo = scanner.nextLine();
                 //Se busca el servicio con el mismo codigo
-                
-                System.out.println("Ingrese el nuevo precio(##.##): ");
-                float precio = scanner.nextFloat();
-               // se cambia el precio del del servicio
-               
+                Optional<Servicio> optionalServicio = ProyectoPrimerParcial.getDataBase().getServicioByCodigo(codigo);
+                if (optionalServicio.isPresent()) {
+                    System.out.println("Ingrese el nuevo precio(##.##): ");
+                    float precio = scanner.nextFloat();
+                    // se cambia el precio del del servicio
+                    ProyectoPrimerParcial.getDataBase().actualizarServicio(optionalServicio.get().setPrecio(precio));
+                } else {
+                    System.out.println("Servicio no encontrado");
+                }
+
             }
         }
     }

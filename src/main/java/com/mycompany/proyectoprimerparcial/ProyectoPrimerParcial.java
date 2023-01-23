@@ -52,7 +52,7 @@ public class ProyectoPrimerParcial {
                         MenuCobranzas menuConbranza = new MenuCobranzas();
                         menuConbranza.menuPrincipal();
                     } else {
-                        MenuTecnico menuTecnico = new MenuTecnico();
+                        MenuTecnico menuTecnico = new MenuTecnico(usuarioDB.usuario);
                         menuTecnico.menuPrincipal();
                     }
                 } else {

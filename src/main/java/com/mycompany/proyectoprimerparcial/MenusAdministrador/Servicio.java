@@ -12,9 +12,8 @@ public class Servicio {
     private String codigo;
     private String nombre;
     private double precio;
-    private int cantidad;
 
-    public Servicio(String ccodigo, String nombre, float precio){
+    public Servicio(String codigo, String nombre, float precio){
       this.codigo=codigo;
       this.nombre=nombre;
       this.precio=precio;
@@ -24,20 +23,18 @@ public class Servicio {
         return precio;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public Servicio setPrecio(double precio) {
+        this.precio = precio;
+        return this;
     }
-    
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
     public String getCodigo() {
         return codigo;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s - %s", codigo, nombre, precio);
+    }
     
     @Override
     public boolean equals(Object obj) {
@@ -50,5 +47,9 @@ public class Servicio {
         }
         else
             return false;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }
