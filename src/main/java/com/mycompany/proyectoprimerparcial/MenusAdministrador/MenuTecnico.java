@@ -104,12 +104,12 @@ public class MenuTecnico {
 
             double precio = ordenServicio.getCantidad() * servicioAgregar.getPrecio();
             ordenServicio.setTotal(precio);
+            ordenServicio.setUsernameTecnico(usernameTecnico);
             precioFinal += precio;
             orden.getOrderServicioList().add(ordenServicio);
             System.out.println("Total: " + precio);
         }
         orden.setCodigoCliente(cliente.codigo);
-        orden.setUsernameTecnico(usernameTecnico);
         orden.setTotal((double) precioFinal);
         cliente.getOrdenList().add(orden);
         db.listaOrdenes.add(orden);

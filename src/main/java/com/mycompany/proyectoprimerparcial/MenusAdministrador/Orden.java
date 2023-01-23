@@ -15,28 +15,31 @@ public class Orden {
     private List<OrderServicio> orderServicioList = new ArrayList<>();
     private Double total;
 
-    public Orden(List<OrderServicio> orderServicioList, Double total, String usernameTecnico, String codigoCliente) {
+    private String codigoCliente;
+
+
+    private String fecha;
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public Orden setFecha(String fecha) {
+        this.fecha = fecha;
+        return this;
+    }
+
+
+    public Orden(List<OrderServicio> orderServicioList, Double total, String codigoCliente) {
         this.orderServicioList = orderServicioList;
         this.total = total;
-        this.usernameTecnico = usernameTecnico;
         this.codigoCliente = codigoCliente;
     }
 
     public Orden() {
     }
 
-    public String getUsernameTecnico() {
-        return usernameTecnico;
-    }
 
-    public Orden setUsernameTecnico(String nombreTecnico) {
-        this.usernameTecnico = nombreTecnico;
-        return this;
-    }
-
-    private String usernameTecnico;
-
-    private String codigoCliente;
 
     public String getCodigoCliente() {
         return codigoCliente;

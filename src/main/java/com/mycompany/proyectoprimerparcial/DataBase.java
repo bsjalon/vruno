@@ -105,7 +105,7 @@ public class DataBase {
         //Proveedores
 
         //Ordenes
-        Orden o1 = new Orden(List.of(new OrderServicio("ASC", "11/11/2020", TipoVehiculo.Bus, 2, s1)), 20.00, "alopez", "1");
+        Orden o1 = new Orden(List.of(new OrderServicio("ASC", "11/11/2020", TipoVehiculo.Bus, 2, s1, "alopez")), 20.00, "1");
         listaOrdenes.add(o1);
 
         //Clientes

@@ -7,9 +7,20 @@ public class OrderServicio {
     private Integer cantidad;
     private final Servicio servicio;
     private double total;
+    private String usernameTecnico;
 
-    public OrderServicio(String p, String f, TipoVehiculo t, Integer c, Servicio servicio) {
+    public String getUsernameTecnico() {
+        return usernameTecnico;
+    }
+
+    public OrderServicio setUsernameTecnico(String usernameTecnico) {
+        this.usernameTecnico = usernameTecnico;
+        return this;
+    }
+
+    public OrderServicio(String p, String f, TipoVehiculo t, Integer c, Servicio servicio, String usernameTecnico) {
         this.placa = p;
+        this.usernameTecnico = usernameTecnico;
         this.fecha = f;
         this.tipo = t;
         this.cantidad = c;
